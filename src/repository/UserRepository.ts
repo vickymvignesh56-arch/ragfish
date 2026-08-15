@@ -2,24 +2,32 @@ import { User } from "../model/user.js";
 import { AppDataSource } from "../config/database.js";
 import type { UserRequest } from "../dto/user/UserRequest.js";
 
-const repository = AppDataSource.getRepository(User);
 export class UserRepository {
+  private repository;
+  constructor() {
+    this.repository = AppDataSource.getRepository(User);
+  }
+
+  findOne(condition: any): Promise<User | null> {
+    return this.repository.findOne(condition);
+  }
   findById(id: string): Promise<User | null> {
-    return repository.findOne({ where: { id } });
+    return this.repository.findOne({ where: { id } });
   }
 
   findByEmail(email: string): Promise<User | null> {
-    return repository.findOne({ where: { email } });
+    return this.repository.findOne({ where: { email } });
   }
 
   createUser(user: UserRequest): Promise<User> {
-    const newUser = repository.create({
+    const newUser = this.repository.create({
       name: user.name,
       email: user.email,
       password: user.password,
       isActive: user.isActive,
     });
-    return repository.save(newUser);
+
+    return this.repository.save(newUser);
   }
 }
 

@@ -25,6 +25,12 @@ export class App {
 
   @Column({
     type: "varchar",
+    unique: true,
+  })
+  slug!: string;
+
+  @Column({
+    type: "varchar",
     nullable: true,
   })
   description!: string;

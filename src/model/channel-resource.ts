@@ -10,6 +10,12 @@ import {
 
 import { Channel } from "./channel.js";
 
+export type ChannelResourceType = "pdf" | "docx" | "xlxs";
+
+export type resourcesAdditionalInfo = {
+  [key: string]: any;
+};
+
 @Entity("channel_resources")
 export class ChannelResource {
   @PrimaryGeneratedColumn("uuid")
@@ -29,6 +35,16 @@ export class ChannelResource {
     type: "bigint",
   })
   size!: number;
+
+  @Column({
+    type: "varchar",
+  })
+  fileType!: ChannelResourceType;
+
+  @Column({
+    type: "varchar",
+  })
+  additionalInfo!: resourcesAdditionalInfo;
 
   @Column({
     type: "boolean",

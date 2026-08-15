@@ -5,6 +5,7 @@ import {
   OneToMany,
   JoinColumn,
   CreateDateColumn,
+  Column,
 } from "typeorm";
 
 import { User } from "./user.js";
@@ -21,6 +22,24 @@ export class Chat {
   })
   @JoinColumn({ name: "userId" })
   user!: User;
+
+  @Column({
+    type: "varchar",
+    nullable: true,
+  })
+  title!: string;
+
+  @Column({
+    type: "boolean",
+    nullable: true,
+  })
+  isPinned!: string;
+
+  @Column({
+    type: "varchar",
+    nullable: true,
+  })
+  isPinnedAt!: string;
 
   @ManyToOne(() => App, (app) => app.chats, {
     onDelete: "CASCADE",

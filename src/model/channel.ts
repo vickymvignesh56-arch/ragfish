@@ -11,6 +11,8 @@ import {
 import { App } from "./app.js";
 import { ChannelResource } from "./channel-resource.js";
 
+export type ChannelType = "files" | "database" | "xlxs";
+
 @Entity("channels")
 export class Channel {
   @PrimaryGeneratedColumn("uuid")
@@ -26,6 +28,11 @@ export class Channel {
     nullable: true,
   })
   description!: string;
+
+  @Column({
+    type: "varchar",
+  })
+  channelType!: ChannelType;
 
   @Column({
     type: "boolean",
