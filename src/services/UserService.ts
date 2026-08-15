@@ -6,7 +6,7 @@ import {
 } from "../repository/UserRepository.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 
-export type loginRequest = {
+export type LoginRequest = {
   email: string;
   password: string;
 };

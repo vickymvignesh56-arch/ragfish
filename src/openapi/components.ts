@@ -9,14 +9,14 @@ export const components = {
         name: {
           type: "string",
           description: "Name of the user",
-          example: "Vignesh",
+          example: "example",
         },
 
         email: {
           type: "string",
           format: "email",
           description: "Email of the user",
-          example: "vignesh@gmail.com",
+          example: "example@gmail.com",
         },
 
         password: {
@@ -59,13 +59,13 @@ export const components = {
 
             name: {
               type: "string",
-              example: "Vignesh",
+              example: "example",
             },
 
             email: {
               type: "string",
               format: "email",
-              example: "vignesh@gmail.com",
+              example: "example@gmail.com",
             },
             password: {
               type: "string",
@@ -101,7 +101,7 @@ export const components = {
         email: {
           type: "string",
           format: "email",
-          example: "vignesh@gmail.com",
+          example: "example@gmail.com",
         },
 
         password: {
@@ -117,22 +117,56 @@ export const components = {
 
       properties: {
         success: {
-          type: "boolean",
-          example: true,
+          type: "number",
+          example: 1,
         },
 
         message: {
           type: "string",
           example: "Login successful",
         },
-
+        token: {
+          type: "string",
+          example: "eyJhbGciOiJIUzI1NiIs...",
+        },
         data: {
           type: "object",
 
           properties: {
-            token: {
+            id: {
               type: "string",
-              example: "eyJhbGciOiJIUzI1NiIs...",
+              format: "uuid",
+            },
+
+            name: {
+              type: "string",
+              example: "example",
+            },
+
+            email: {
+              type: "string",
+              format: "email",
+              example: "example@gmail.com",
+            },
+            password: {
+              type: "string",
+              format: "password",
+              example: "Password@123",
+            },
+
+            isActive: {
+              type: "boolean",
+              example: true,
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
             },
           },
         },

@@ -7,7 +7,7 @@ import {
   Res,
   UnauthorizedError,
 } from "routing-controllers";
-import { userService, type loginRequest } from "../services/UserService.js";
+import { userService, type LoginRequest } from "../services/UserService.js";
 import type { UserRequest } from "../dto/user/UserRequest.js";
 import { qdrantServices } from "../services/QdrantService.js";
 import Jwt from "jsonwebtoken";
@@ -80,7 +80,7 @@ export class AuthController {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: "#/components/schemas/registerUserRequest"
+   *             $ref: "#/components/schemas/LoginRequest"
    *
    *     responses:
    *       201:
@@ -98,7 +98,7 @@ export class AuthController {
    *         $ref: "#/components/responses/InternalServerError"
    */
   @Post("/login")
-  async login(@Body() loginRequest: loginRequest, @Res() res: any) {
+  async login(@Body() loginRequest: LoginRequest, @Res() res: any) {
     if (!loginRequest.email) {
       throw new BadRequestError("Email is required");
     }
