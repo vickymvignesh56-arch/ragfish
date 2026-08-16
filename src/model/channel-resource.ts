@@ -16,6 +16,8 @@ export type resourcesAdditionalInfo = {
   [key: string]: any;
 };
 
+export type uploadStatus = "completed" | "pending" | "failed" | "processing";
+
 @Entity("channel_resources")
 export class ChannelResource {
   @PrimaryGeneratedColumn("uuid")
@@ -43,14 +45,15 @@ export class ChannelResource {
 
   @Column({
     type: "varchar",
+    nullable: true,
   })
   additionalInfo!: resourcesAdditionalInfo;
 
   @Column({
-    type: "boolean",
-    default: true,
+    type: "varchar",
+    default: "pending",
   })
-  status!: boolean;
+  status!: uploadStatus;
 
   @ManyToOne(() => Channel, (channel) => channel.resources, {
     onDelete: "CASCADE",

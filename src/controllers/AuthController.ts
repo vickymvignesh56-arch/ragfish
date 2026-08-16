@@ -2,14 +2,12 @@ import {
   BadRequestError,
   Body,
   JsonController,
-  NotFoundError,
   Post,
   Res,
   UnauthorizedError,
 } from "routing-controllers";
 import { userService, type LoginRequest } from "../services/UserService.js";
 import type { UserRequest } from "../dto/user/UserRequest.js";
-import { qdrantServices } from "../services/QdrantService.js";
 import Jwt from "jsonwebtoken";
 import { authConfig } from "../env.js";
 
@@ -48,12 +46,6 @@ export class AuthController {
     @Res() res: any,
   ): Promise<any> {
     const user = await userService.registerUser(userRequest);
-    if (!user) {
-      throw new NotFoundError("Failed to register user");
-    }
-
-    await qdrantServices.createQdrantCollection(user.id);
-
     return res.status(201).json({
       status: 1,
       message: "User registered successfully",

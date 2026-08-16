@@ -63,3 +63,31 @@ export const qdrantVectorConfig: QdrantVectorConfig = {
   size: Number(getEnvOrDefault("QDRANT_SIZE", "3072")),
   distance: getEnvOrDefault("QDRANT_DISTANCE", "Cosine") as QdrantDistance,
 };
+
+export type MailConfig = {
+  host: string;
+  port: number;
+  secure: boolean;
+  from: string;
+  auth: {
+    user: string;
+    password: string;
+  };
+};
+
+export const mailConfig: MailConfig = {
+  host: getEnv("MAIL_HOST"),
+  port: Number(getEnv("MAIL_PORT")),
+  secure: getEnv("MAIL_SECURE") === "true",
+  from: getEnv("MAIL_FROM"),
+  auth: {
+    user: getEnv("MAIL_USER"),
+    password: getEnv("MAIL_PASSWORD"),
+  },
+};
+console.log({
+  host: mailConfig.host,
+  port: mailConfig.port,
+  secure: mailConfig.secure,
+  // password DON'T print
+});

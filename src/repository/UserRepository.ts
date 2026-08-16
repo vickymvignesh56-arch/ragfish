@@ -22,11 +22,10 @@ export class UserRepository {
   createUser(user: UserRequest): Promise<User> {
     const newUser = this.repository.create({
       name: user.name,
-      email: user.email,
+      email: user.email.toString().toLowerCase(),
       password: user.password,
       isActive: user.isActive,
     });
-
     return this.repository.save(newUser);
   }
 }

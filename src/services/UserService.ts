@@ -1,3 +1,4 @@
+import { BadRequestError } from "routing-controllers";
 import type { UserRequest } from "../dto/user/UserRequest.js";
 import type { User } from "../model/user.js";
 import {
@@ -5,6 +6,8 @@ import {
   userRepository,
 } from "../repository/UserRepository.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
+import { mailService } from "./MailService.js";
+import { qdrantServices } from "../services/QdrantService.js";
 
 export type LoginRequest = {
   email: string;
@@ -16,14 +19,19 @@ export class UserService {
   findOne(condition: any): Promise<User | null> {
     return this.userRepository.findOne(condition);
   }
-  async registerUser(user: UserRequest): Promise<User | null> {
-    const existingUser = await this.userRepository.findByEmail(user.email);
+  async registerUser(user: UserRequest): Promise<User> {
+    const existingUser = await this.userRepository.findByEmail(
+      user.email.toString().toLowerCase(),
+    );
     if (existingUser) {
-      return null;
+      throw new BadRequestError("email already exits");
     }
     const hashedPassword = await hashPassword(user.password);
     user.password = hashedPassword;
-    return this.userRepository.createUser(user);
+    const createUser = await this.userRepository.createUser(user);
+    await mailService.sendMail(createUser.email, createUser.name);
+    await qdrantServices.createQdrantCollection(createUser.id);
+    return createUser;
   }
 
   async login(email: string, password: string): Promise<User | null> {
