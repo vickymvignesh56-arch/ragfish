@@ -11,6 +11,22 @@ export function getEnvOrDefault(key: string, defaultValue: string): string {
   return value !== undefined ? value : defaultValue;
 }
 
+export function isBoolean(key: string): boolean {
+  return process.env[key] === "true";
+}
+
+export function isNumber(key: string): number {
+  const value = process.env[key];
+  if (value === undefined) {
+    throw new Error(`Environment variable ${key} is not defined`);
+  }
+  const numberValue = Number(value);
+  if (Number.isNaN(numberValue)) {
+    throw new Error(`Environment variable ${key} must be a valid number`);
+  }
+  return numberValue;
+}
+
 export type DbConfig = {
   host: string;
   port: number;
@@ -47,10 +63,14 @@ export const qdrantConfig: QdrantConfig = {
 
 export type GeminiConfig = {
   apiKey: string;
+  embeddingModel: string;
+  generationModel: string;
 };
 
 export const geminiConfig: GeminiConfig = {
   apiKey: getEnv("GEMINI_API_KEY"),
+  embeddingModel: getEnv("GEMINI_EMBEDDING_MODEL"),
+  generationModel: getEnv("GEMINI_GENERATION_MODEL"),
 };
 
 type QdrantDistance = "Cosine" | "Euclid" | "Dot" | "Manhattan";
@@ -85,9 +105,11 @@ export const mailConfig: MailConfig = {
     password: getEnv("MAIL_PASSWORD"),
   },
 };
-console.log({
-  host: mailConfig.host,
-  port: mailConfig.port,
-  secure: mailConfig.secure,
-  // password DON'T print
-});
+
+export type RedisConfig = {
+  url: string;
+};
+
+export const redisConfig: RedisConfig = {
+  url: getEnv("REDIS_URL"),
+};
