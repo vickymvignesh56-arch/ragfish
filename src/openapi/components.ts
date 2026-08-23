@@ -173,6 +173,187 @@ export const components = {
       },
     },
 
+    LLMProviderRequest: {
+      type: "object",
+      required: ["provider", "apiKey", "chatModel", "embeddingModel"],
+      properties: {
+        provider: {
+          type: "string",
+          description: "LLM provider type",
+          enum: ["GEMINI", "OPENAI"],
+          example: "GEMINI",
+        },
+
+        apiKey: {
+          type: "string",
+          format: "password",
+          description: "API key of the LLM provider",
+          example: "AIzaSyxxxxxxxxxxxxxxxx",
+        },
+
+        chatModel: {
+          type: "string",
+          description: "Chat generation model",
+          example: "gemini-3.6-flash",
+        },
+
+        embeddingModel: {
+          type: "string",
+          description: "Embedding model",
+          example: "gemini-embedding-001",
+        },
+      },
+    },
+
+    LLMProviderStatusRequest: {
+      type: "object",
+
+      required: ["isActive"],
+
+      properties: {
+        isActive: {
+          type: "boolean",
+          description: "Activate or deactivate the LLM provider",
+          example: true,
+        },
+      },
+    },
+
+    LLMProviderResponse: {
+      type: "object",
+
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "LLM provider saved successfully",
+        },
+        data: {
+          type: "object",
+
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            provider: {
+              type: "string",
+              enum: ["GEMINI", "OPENAI"],
+              example: "GEMINI",
+            },
+
+            chatModel: {
+              type: "string",
+              example: "gemini-3.6-flash",
+            },
+
+            embeddingModel: {
+              type: "string",
+              example: "gemini-embedding-001",
+            },
+
+            isActive: {
+              type: "boolean",
+              example: true,
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+    UpdateUserRequest: {
+      type: "object",
+
+      properties: {
+        name: {
+          type: "string",
+          description: "Name of the user",
+          example: "example",
+        },
+
+        email: {
+          type: "string",
+          format: "email",
+          description: "Email of the user",
+          example: "example@gmail.com",
+        },
+
+        password: {
+          type: "string",
+          format: "password",
+          description: "New password of the user",
+          example: "example@123",
+        },
+      },
+    },
+
+    UserProfileResponse: {
+      type: "object",
+
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "User profile retrieved successfully",
+        },
+
+        data: {
+          type: "object",
+
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            name: {
+              type: "string",
+              example: "example",
+            },
+
+            email: {
+              type: "string",
+              format: "email",
+              example: "example@gmail.com",
+            },
+
+            isActive: {
+              type: "boolean",
+              example: true,
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
     ErrorResponse: {
       type: "object",
 

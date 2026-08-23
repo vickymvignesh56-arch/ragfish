@@ -11,61 +11,61 @@ export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
     if (error instanceof HttpError) {
       if (error.httpCode === 400) {
         res.status(400).json({
-          success: false,
-          statusCode: 400,
+          success: 0,
           message: error.message || "Bad Request",
+          stack: error.stack,
         });
         return;
       }
 
       if (error.httpCode === 401) {
         res.status(401).json({
-          success: false,
-          statusCode: 401,
-          message: error.message || "Unauthorized",
+          success: 0,
+          message: "Unauthorized",
+          stack: error.stack,
         });
         return;
       }
 
       if (error.httpCode === 403) {
         res.status(403).json({
-          success: false,
-          statusCode: 403,
+          success: 0,
           message: error.message || "Forbidden",
+          stack: error.stack,
         });
         return;
       }
 
       if (error.httpCode === 404) {
         res.status(404).json({
-          success: false,
-          statusCode: 404,
+          success: 0,
           message: error.message || "Not Found",
+          stack: error.stack,
         });
         return;
       }
 
       res.status(error.httpCode).json({
-        success: false,
-        statusCode: error.httpCode,
+        success: 0,
         message: error.message,
+        stack: error.stack,
       });
       return;
     }
 
     if (error instanceof Error) {
       res.status(500).json({
-        success: false,
-        statusCode: 500,
+        success: 0,
         message: error.message,
+        stack: error.stack,
       });
       return;
     }
 
     res.status(500).json({
-      success: false,
-      statusCode: 500,
+      success: 0,
       message: "Internal Server Error",
+      stack: error.stack,
     });
   }
 }

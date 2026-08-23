@@ -1,32 +1,31 @@
-import { geminiConfig } from "../env.js";
-import { gemini } from "../config/gemini.js";
+import { getEmbeddingProvider } from "../providers/EmbeddingFactory.js";
+import { llmProviderService } from "./LLMProviderService.js";
 
 export class EmbeddingService {
-  async generateEmbedding(text: string): Promise<number[]> {
-    const trimedText = text.trim();
-    if (!trimedText) {
+  async generateEmbedding(userId: string, text: string): Promise<number[]> {
+    const trimmedText = text.trim();
+    if (!trimmedText) {
       throw new Error("Embedding text cannot be empty");
     }
-    if (!geminiConfig.apiKey) {
-      throw new Error("Gemini API key is not configured");
+    const llmProvider = await llmProviderService.getActiveProvider(userId);
+    if (!llmProvider.apiKey) {
+      throw new Error("LLM provider API key is not configured");
     }
-    if (!geminiConfig.embeddingModel) {
-      throw new Error("Gemini embedding model is not configured");
+    if (!llmProvider.embeddingModel) {
+      throw new Error("LLM provider embedding model is not configured");
     }
-    try {
-      const respones = await gemini.models.embedContent({
-        model: geminiConfig.embeddingModel,
-        contents: trimedText,
-      });
-      const embedding = respones.embeddings?.[0]?.values;
-      if (!embedding || embedding.length === 0) {
-        throw new Error("Gemini returned an empty embedding");
-      }
-      return embedding;
-    } catch (err) {
-      console.error("Gemini embedding generation failed");
-      throw new Error("Failed to generate text embedding");
-    }
+    const embeddingProvider = getEmbeddingProvider(llmProvider.provider);
+    const config = {
+      userId: userId,
+      apiKey: llmProvider.apiKey,
+      model: llmProvider.embeddingModel,
+    };
+    const embedding = await embeddingProvider.generateEmbedding(
+      trimmedText,
+      config,
+    );
+    return embedding;
   }
 }
+
 export const embeddingService = new EmbeddingService();

@@ -1,6 +1,7 @@
 import { User } from "../model/user.js";
 import { AppDataSource } from "../config/database.js";
 import type { UserRequest } from "../dto/user/UserRequest.js";
+import type { UpdateUserRequest } from "../dto/user/UpdateUserRequest.js";
 
 export class UserRepository {
   private repository;
@@ -27,6 +28,11 @@ export class UserRepository {
       isActive: user.isActive,
     });
     return this.repository.save(newUser);
+  }
+
+  async update(user: User, updateData: UpdateUserRequest) {
+    Object.assign(user, updateData);
+    return await this.repository.save(user);
   }
 }
 

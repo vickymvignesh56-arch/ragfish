@@ -113,3 +113,11 @@ export type RedisConfig = {
 export const redisConfig: RedisConfig = {
   url: getEnv("REDIS_URL"),
 };
+
+export type CryptoConfig = {
+  secretKey: string;
+};
+
+export const cryptoConfig: CryptoConfig = {
+  secretKey: getEnv("CRYPTO_SECRET_KEY") ?? "",
+};

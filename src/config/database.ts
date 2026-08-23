@@ -7,6 +7,7 @@ import { Chat } from "../model/chat.js";
 import { App } from "../model/app.js";
 import { User } from "../model/user.js";
 import { ChatMessage } from "../model/chat.message.js";
+import { LLMProvider } from "../model/LLMProvider.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -17,5 +18,13 @@ export const AppDataSource = new DataSource({
   database: dbConfig.database,
   synchronize: true,
   logging: true,
-  entities: [User, App, Channel, ChannelResource, Chat, ChatMessage],
+  entities: [
+    User,
+    App,
+    Channel,
+    ChannelResource,
+    Chat,
+    ChatMessage,
+    LLMProvider,
+  ],
 });

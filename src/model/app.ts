@@ -25,6 +25,11 @@ export class App {
 
   @Column({
     type: "varchar",
+  })
+  systemPrompt!: string;
+
+  @Column({
+    type: "varchar",
     unique: true,
   })
   slug!: string;
@@ -40,6 +45,17 @@ export class App {
     default: true,
   })
   status!: boolean;
+
+  @Column({
+    type: "boolean",
+    default: false,
+  })
+  llmProvider!: boolean;
+
+  @Column({
+    type: "uuid",
+  })
+  userId!: string;
 
   @ManyToOne(() => User, (user) => user.apps, {
     onDelete: "CASCADE",

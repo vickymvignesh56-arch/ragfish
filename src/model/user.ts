@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { App } from "./app.js";
 import { Chat } from "./chat.js";
+import { LLMProvider } from "./LLMProvider.js";
 
 @Entity("users")
 export class User {
@@ -51,4 +52,7 @@ export class User {
     type: "timestamp",
   })
   updatedAt!: Date;
+
+  @OneToMany(() => LLMProvider, (llmProvider) => llmProvider.user)
+  llmProviders!: LLMProvider[];
 }

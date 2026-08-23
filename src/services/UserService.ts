@@ -8,6 +8,7 @@ import {
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import { mailService } from "./MailService.js";
 import { qdrantServices } from "../services/QdrantService.js";
+import type { UpdateUserRequest } from "../dto/user/UpdateUserRequest.js";
 
 export type LoginRequest = {
   email: string;
@@ -18,6 +19,10 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
   findOne(condition: any): Promise<User | null> {
     return this.userRepository.findOne(condition);
+  }
+
+  findByUserId(userId: string) {
+    return this.userRepository.findById(userId);
   }
   async registerUser(user: UserRequest): Promise<User> {
     const existingUser = await this.userRepository.findByEmail(
@@ -52,6 +57,24 @@ export class UserService {
       return null;
     }
     return user;
+  }
+
+  async userDetails(userId: string): Promise<User | null> {
+    return await this.userRepository.findById(userId);
+  }
+
+  async updateProfile(userId: string, userRequest: UpdateUserRequest) {
+    const users = await this.userRepository.findById(userId);
+    if (!users) {
+      return null;
+    }
+    const updateDate = {
+      ...userRequest,
+    };
+    if (updateDate.password) {
+      updateDate.password = await hashPassword(updateDate.password);
+    }
+    return await this.userRepository.update(users, updateDate);
   }
 }
 
