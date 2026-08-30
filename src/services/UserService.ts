@@ -71,6 +71,13 @@ export class UserService {
     const updateDate = {
       ...userRequest,
     };
+    if (updateDate.email) {
+      const exitEmail = await this.userRepository.findByEmail(updateDate.email);
+      if (exitEmail && exitEmail.id !== userId) {
+        throw new BadRequestError("Email already exists with another user");
+      }
+      updateDate.email = updateDate.email.trim().toLowerCase();
+    }
     if (updateDate.password) {
       updateDate.password = await hashPassword(updateDate.password);
     }

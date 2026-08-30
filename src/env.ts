@@ -20,10 +20,7 @@ export function isNumber(key: string): number {
   if (value === undefined) {
     throw new Error(`Environment variable ${key} is not defined`);
   }
-  const numberValue = Number(value);
-  if (Number.isNaN(numberValue)) {
-    throw new Error(`Environment variable ${key} must be a valid number`);
-  }
+  const numberValue = parseInt(value, 10);
   return numberValue;
 }
 
@@ -80,7 +77,7 @@ export type QdrantVectorConfig = {
   distance: QdrantDistance;
 };
 export const qdrantVectorConfig: QdrantVectorConfig = {
-  size: Number(getEnvOrDefault("QDRANT_SIZE", "3072")),
+  size: isNumber("QDRANT_SIZE"),
   distance: getEnvOrDefault("QDRANT_DISTANCE", "Cosine") as QdrantDistance,
 };
 
@@ -97,7 +94,7 @@ export type MailConfig = {
 
 export const mailConfig: MailConfig = {
   host: getEnv("MAIL_HOST"),
-  port: Number(getEnv("MAIL_PORT")),
+  port: isNumber("MAIL_PORT"),
   secure: getEnv("MAIL_SECURE") === "true",
   from: getEnv("MAIL_FROM"),
   auth: {
@@ -120,4 +117,14 @@ export type CryptoConfig = {
 
 export const cryptoConfig: CryptoConfig = {
   secretKey: getEnv("CRYPTO_SECRET_KEY") ?? "",
+};
+
+export type Storage = {
+  uploadDir: string;
+  fileSize: number;
+};
+
+export const storage: Storage = {
+  uploadDir: getEnv("UPLOAD_DIR"),
+  fileSize: isNumber("UPLOAD_FILE_SIZE"),
 };

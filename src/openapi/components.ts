@@ -354,6 +354,116 @@ export const components = {
       },
     },
 
+    CreateAppRequest: {
+      type: "object",
+
+      required: ["name", "systemPrompt"],
+
+      properties: {
+        name: {
+          type: "string",
+          description: "Name of the app",
+          example: "My Chat App",
+        },
+
+        systemPrompt: {
+          type: "string",
+          description: "System prompt used by the app",
+          example: "You are a helpful AI assistant.",
+        },
+
+        description: {
+          type: "string",
+          description: "Description of the app",
+          example: "My document chat application",
+        },
+
+        status: {
+          type: "boolean",
+          description: "Indicates if the app is active",
+          example: true,
+        },
+
+        llmProvider: {
+          type: "boolean",
+          description: "Indicates whether the app can use LLM features",
+          example: false,
+        },
+      },
+    },
+
+    CreateAppResponse: {
+      type: "object",
+
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "Successfully create app",
+        },
+
+        data: {
+          type: "object",
+
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            name: {
+              type: "string",
+              example: "My Chat App",
+            },
+
+            slug: {
+              type: "string",
+              example: "my-chat-app",
+            },
+
+            userId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            systemPrompt: {
+              type: "string",
+              example: "You are a helpful AI assistant.",
+            },
+
+            description: {
+              type: "string",
+              example: "My document chat application",
+            },
+
+            status: {
+              type: "boolean",
+              example: true,
+            },
+
+            llmProvider: {
+              type: "boolean",
+              example: false,
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
     ErrorResponse: {
       type: "object",
 

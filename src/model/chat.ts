@@ -17,6 +17,11 @@ export class Chat {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
+  @Column("uuid")
+  userId!: string;
+  @Column("uuid")
+  appId!: string;
+
   @ManyToOne(() => User, (user) => user.chats, {
     onDelete: "CASCADE",
   })
@@ -33,13 +38,13 @@ export class Chat {
     type: "boolean",
     nullable: true,
   })
-  isPinned!: string;
+  isPinned!: boolean;
 
   @Column({
-    type: "varchar",
+    type: "timestamp",
     nullable: true,
   })
-  isPinnedAt!: string;
+  pinnedAt!: Date | null;
 
   @ManyToOne(() => App, (app) => app.chats, {
     onDelete: "CASCADE",

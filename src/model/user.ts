@@ -8,8 +8,8 @@ import {
 } from "typeorm";
 import { App } from "./app.js";
 import { Chat } from "./chat.js";
+import { Channel } from "./channel.js";
 import { LLMProvider } from "./LLMProvider.js";
-
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -40,8 +40,14 @@ export class User {
   @OneToMany(() => App, (app) => app.user)
   apps!: App[];
 
+  @OneToMany(() => Channel, (channel) => channel.user)
+  channels!: Channel[];
+
   @OneToMany(() => Chat, (chat) => chat.user)
   chats!: Chat[];
+
+  @OneToMany(() => LLMProvider, (llmProvider) => llmProvider.user)
+  llmProviders!: LLMProvider[];
 
   @CreateDateColumn({
     type: "timestamp",
@@ -52,7 +58,4 @@ export class User {
     type: "timestamp",
   })
   updatedAt!: Date;
-
-  @OneToMany(() => LLMProvider, (llmProvider) => llmProvider.user)
-  llmProviders!: LLMProvider[];
 }

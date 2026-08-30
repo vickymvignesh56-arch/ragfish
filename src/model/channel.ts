@@ -8,8 +8,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { App } from "./app.js";
+
+import { User } from "./user.js";
 import { ChannelResource } from "./channel-resource.js";
+import { UserAppChannel } from "./user-app-channel.js";
 
 export type ChannelType = "files" | "database" | "xlxs";
 
@@ -27,7 +29,7 @@ export class Channel {
     type: "varchar",
     nullable: true,
   })
-  description!: string;
+  description!: string | null;
 
   @Column({
     type: "varchar",
@@ -40,14 +42,24 @@ export class Channel {
   })
   status!: boolean;
 
-  @ManyToOne(() => App, (app) => app.channels, {
+  @Column({
+    type: "uuid",
+  })
+  userId!: string;
+
+  @ManyToOne(() => User, (user) => user.channels, {
     onDelete: "CASCADE",
   })
-  @JoinColumn({ name: "appId" })
-  app!: App;
+  @JoinColumn({
+    name: "userId",
+  })
+  user!: User;
 
   @OneToMany(() => ChannelResource, (resource) => resource.channel)
   resources!: ChannelResource[];
+
+  @OneToMany(() => UserAppChannel, (userAppChannel) => userAppChannel.channel)
+  userAppChannels!: UserAppChannel[];
 
   @CreateDateColumn({
     type: "timestamp",

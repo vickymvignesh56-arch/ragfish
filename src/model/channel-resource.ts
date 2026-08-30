@@ -3,20 +3,20 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  OneToMany,
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-
 import { Channel } from "./channel.js";
+import { UserAppChannelResource } from "./user-app-channel-resource.js";
 
 export type ChannelResourceType = "pdf" | "docx" | "xlxs";
 
-export type resourcesAdditionalInfo = {
+export type ResourcesAdditionalInfo = {
   [key: string]: any;
 };
-
-export type uploadStatus = "completed" | "pending" | "failed" | "processing";
+export type UploadStatus = "completed" | "pending" | "failed" | "processing";
 
 @Entity("channel_resources")
 export class ChannelResource {
@@ -44,22 +44,32 @@ export class ChannelResource {
   fileType!: ChannelResourceType;
 
   @Column({
-    type: "varchar",
+    type: "jsonb",
     nullable: true,
   })
-  additionalInfo!: resourcesAdditionalInfo;
+  additionalInfo!: ResourcesAdditionalInfo | null;
 
   @Column({
     type: "varchar",
     default: "pending",
   })
-  status!: uploadStatus;
+  status!: UploadStatus;
+
+  @Column({
+    type: "uuid",
+  })
+  channelId!: string;
 
   @ManyToOne(() => Channel, (channel) => channel.resources, {
     onDelete: "CASCADE",
   })
-  @JoinColumn({ name: "channelId" })
+  @JoinColumn({
+    name: "channelId",
+  })
   channel!: Channel;
+
+  @OneToMany(() => UserAppChannelResource, (mapping) => mapping.channelResource)
+  userAppChannelResources!: UserAppChannelResource[];
 
   @CreateDateColumn({
     type: "timestamp",

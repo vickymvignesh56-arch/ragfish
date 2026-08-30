@@ -15,11 +15,11 @@ export class IndexService {
     text: string,
   ): Promise<void> {
     const collectionName = this.qdrantServices.getUserCollectionName(userId);
+    const embedding = await this.embeddingService.generateEmbedding(
+      userId,
+      text,
+    );
     try {
-      const embedding = await this.embeddingService.generateEmbedding(
-        userId,
-        text,
-      );
       await qdrantClient.upsert(collectionName, {
         wait: true,
         points: [

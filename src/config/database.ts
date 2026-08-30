@@ -8,6 +8,8 @@ import { App } from "../model/app.js";
 import { User } from "../model/user.js";
 import { ChatMessage } from "../model/chat.message.js";
 import { LLMProvider } from "../model/LLMProvider.js";
+import { UserAppChannel } from "../model/user-app-channel.js";
+import { UserAppChannelResource } from "../model/user-app-channel-resource.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -26,5 +28,7 @@ export const AppDataSource = new DataSource({
     Chat,
     ChatMessage,
     LLMProvider,
+    UserAppChannel,
+    UserAppChannelResource,
   ],
 });

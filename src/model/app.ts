@@ -8,10 +8,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-
 import { User } from "./user.js";
-import { Channel } from "./channel.js";
 import { Chat } from "./chat.js";
+import { UserAppChannel } from "./user-app-channel.js";
 
 @Entity("apps")
 export class App {
@@ -38,7 +37,7 @@ export class App {
     type: "varchar",
     nullable: true,
   })
-  description!: string;
+  description!: string | null;
 
   @Column({
     type: "boolean",
@@ -60,24 +59,16 @@ export class App {
   @ManyToOne(() => User, (user) => user.apps, {
     onDelete: "CASCADE",
   })
-  @JoinColumn({ name: "userId" })
+  @JoinColumn({
+    name: "userId",
+  })
   user!: User;
-
-  @OneToMany(() => Channel, (channel) => channel.app)
-  channels!: Channel[];
 
   @OneToMany(() => Chat, (chat) => chat.app)
   chats!: Chat[];
 
-  @CreateDateColumn({
-    type: "timestamp",
-  })
-  createdAt!: Date;
-
-  @UpdateDateColumn({
-    type: "timestamp",
-  })
-  updatedAt!: Date;
+  @OneToMany(() => UserAppChannel, (userAppChannel) => userAppChannel.app)
+  userAppChannels!: UserAppChannel[];
 
   @Column({
     type: "boolean",
@@ -89,5 +80,15 @@ export class App {
     type: "timestamp",
     nullable: true,
   })
-  pinnedAt?: Date;
+  pinnedAt!: Date | null;
+
+  @CreateDateColumn({
+    type: "timestamp",
+  })
+  createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+  })
+  updatedAt!: Date;
 }
