@@ -1,5 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
-import { components } from "../Openapi/components.js";
+import { Components } from "../openapi/components.js";
 
 export const swaggerOptions: swaggerJSDoc.Options = {
   definition: {
@@ -15,7 +15,7 @@ export const swaggerOptions: swaggerJSDoc.Options = {
         description: "development server",
       },
     ],
-    components: components,
+    components: Components,
   },
   apis: ["./src/controllers/**/*.ts"],
 };

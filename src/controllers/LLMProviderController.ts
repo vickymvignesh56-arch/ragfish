@@ -1,9 +1,9 @@
-import { Body, Get, JsonController, Put, Req, Res } from "routing-controllers";
+import { Authorized, Body, Get, JsonController, Put, Req, Res } from "routing-controllers";
 import type { LLMProviderRequest } from "../dto/lmprovider/LLMProviderRequest.js";
 import { llmProviderService } from "../services/LLMProviderService.js";
 import type { LLMProviderStatusRequest } from "../dto/lmprovider/LLMProviderStatusRequest.js";
-
-JsonController("/llm-provider");
+@Authorized()
+@JsonController("/llm-provider")
 export class LLMProviderController {
   /**
    * @openapi

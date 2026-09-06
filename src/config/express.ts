@@ -7,11 +7,13 @@ import { swaggerSpec } from "./swagger.js";
 import { AuthController } from "../controllers/AuthController.js";
 import { LLMProviderController } from "../controllers/LLMProviderController.js";
 import { ErrorHandlerMiddleware } from "../middleware/errorHandler.middleware.js";
+import { AppController } from "../controllers/AppController.js";
+import { UserController } from "../controllers/UserController.js";
 
 const app = createExpressServer({
   cors: true,
   routePrefix: "/api",
-  controllers: [AuthController, LLMProviderController],
+  controllers: [AuthController, AppController, UserController, LLMProviderController],
   middlewares: [loggerMiddleware, ErrorHandlerMiddleware],
   defaultErrorHandler: false,
   authorizationChecker: authorizationChecker,

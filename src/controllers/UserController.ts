@@ -11,7 +11,7 @@ import {
 } from "routing-controllers";
 import { userService } from "../services/UserService.js";
 import type { UpdateUserRequest } from "../dto/user/UpdateUserRequest.js";
-
+@Authorized()
 @JsonController("/user-profile")
 export class UserController {
   /**
@@ -37,7 +37,6 @@ export class UserController {
    *       500:
    *         $ref: "#/components/responses/InternalServerError"
    */
-  @Authorized()
   @Get()
   async profileDetails(@Res() res: any, @Req() req: any) {
     const userId = req.userId;
@@ -81,7 +80,6 @@ export class UserController {
    *       500:
    *         $ref: "#/components/responses/InternalServerError"
    */
-  @Authorized()
   @Put()
   async updateProfile(
     @Body({ validate: true }) updateUserParam: UpdateUserRequest,

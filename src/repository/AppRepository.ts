@@ -1,5 +1,4 @@
 import { AppDataSource } from "../config/database.js";
-import type { CreateAppRequest } from "../dto/apps/CreateAppRequest.js";
 import { App } from "../model/app.js";
 
 export type CreateApp = {
@@ -10,6 +9,15 @@ export type CreateApp = {
   description: string;
   status: boolean;
   llmProvider: boolean;
+};
+
+export type UpdateApp = {
+  name?: string;
+  systemPrompt?: string;
+  slug?: string;
+  description?: string | null;
+  status?: boolean;
+  llmProvider?: boolean;
 };
 
 export class AppRepository {
@@ -27,6 +35,9 @@ export class AppRepository {
   findAppAndUserId(userId: string): Promise<App[]> {
     return this.repository.find({
       where: { userId: userId },
+      relations: {
+        llmProviders: true,
+      },
     });
   }
 
@@ -39,6 +50,9 @@ export class AppRepository {
   findAppBySlug(userId: string, slug: string): Promise<App | null> {
     return this.repository.findOne({
       where: { userId: userId, slug },
+      relations: {
+        llmProviders: true,
+      },
     });
   }
 
@@ -50,6 +64,9 @@ export class AppRepository {
       where: {
         userId,
         slug,
+      },
+      relations: {
+        llmProviders: true,
       },
     });
 
@@ -69,8 +86,24 @@ export class AppRepository {
     return this.repository.save(apps);
   }
 
-  async update(app: CreateAppRequest): Promise<App | null> {
-    return this.repository.save(app);
+  async deleteApp(userId: string, appId: string): Promise<boolean> {
+    const result = await this.repository.delete({ id: appId, userId });
+    return (result.affected ?? 0) > 0;
+  }
+
+  async update(
+    userId: string,
+    appId: string,
+    appParam: UpdateApp,
+  ): Promise<App | null> {
+    const app = await this.repository.findOne({
+      where: { id: appId, userId },
+    });
+    if (!app) {
+      return null;
+    }
+    Object.assign(app, appParam);
+    return await this.repository.save(app);
   }
 }
 export const appRepository = new AppRepository();

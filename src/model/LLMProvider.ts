@@ -7,9 +7,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToMany,
 } from "typeorm";
 
 import { User } from "./user.js";
+import { App } from "./app.js";
 
 export enum LLMProviderType {
   GEMINI = "GEMINI",
@@ -69,4 +71,7 @@ export class LLMProvider {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @OneToMany(() => App, (app) => app.llmProviders)
+  apps!: App[];
 }

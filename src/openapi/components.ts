@@ -1,4 +1,4 @@
-export const components = {
+export const Components = {
   schemas: {
     registerUserRequest: {
       type: "object",
@@ -460,6 +460,249 @@ export const components = {
               format: "date-time",
             },
           },
+        },
+      },
+    },
+
+    CreateChannelRequest: {
+      type: "object",
+      required: ["name", "description", "channelType"],
+      properties: {
+        name: {
+          type: "string",
+          description: "Name of the channel",
+          example: "Customer Support",
+        },
+        description: {
+          type: "string",
+          description: "Description of the channel",
+          example: "Customer support documents",
+        },
+        channelType: {
+          type: "string",
+          description: "Type of the channel",
+          example: "files",
+        },
+      },
+    },
+
+    CreateChannelResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+        message: {
+          type: "string",
+          example: "Channel created successfully",
+        },
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+            name: {
+              type: "string",
+              example: "Customer Support",
+            },
+            description: {
+              type: "string",
+              example: "Customer support documents",
+            },
+            channelType: {
+              type: "string",
+              example: "files",
+            },
+            userId: {
+              type: "string",
+              format: "uuid",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
+    GetChannelsResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+        message: {
+          type: "string",
+          example: "Channels fetched successfully",
+        },
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string",
+                format: "uuid",
+              },
+              name: {
+                type: "string",
+                example: "Customer Support",
+              },
+              description: {
+                type: "string",
+                example: "Customer support documents",
+              },
+              channelType: {
+                type: "string",
+                example: "files",
+              },
+              userId: {
+                type: "string",
+                format: "uuid",
+              },
+              createdAt: {
+                type: "string",
+                format: "date-time",
+              },
+              updatedAt: {
+                type: "string",
+                format: "date-time",
+              },
+            },
+          },
+        },
+      },
+    },
+
+    GetChannelResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+        message: {
+          type: "string",
+          example: "Channel fetched successfully",
+        },
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+            name: {
+              type: "string",
+              example: "Customer Support",
+            },
+            description: {
+              type: "string",
+              example: "Customer support documents",
+            },
+            channelType: {
+              type: "string",
+              example: "files",
+            },
+            userId: {
+              type: "string",
+              format: "uuid",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
+    UpdateChannelRequest: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "Updated channel name",
+          example: "Updated Customer Support",
+        },
+        description: {
+          type: "string",
+          description: "Updated channel description",
+          example: "Updated customer support documents",
+        },
+      },
+    },
+
+    UpdateChannelResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+        message: {
+          type: "string",
+          example: "Channel updated successfully",
+        },
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+            name: {
+              type: "string",
+              example: "Updated Customer Support",
+            },
+            description: {
+              type: "string",
+              example: "Updated customer support documents",
+            },
+            channelType: {
+              type: "string",
+              example: "files",
+            },
+            userId: {
+              type: "string",
+              format: "uuid",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
+    DeleteChannelResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+        message: {
+          type: "string",
+          example: "Channel deleted successfully",
         },
       },
     },

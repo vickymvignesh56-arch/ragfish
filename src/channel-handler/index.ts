@@ -7,8 +7,6 @@ export interface ChannelProcess {
 }
 
 export interface ChannelHandler {
-  setupChannel(userId: string, appId: string, channelId: string): Promise<void>;
-
   processResource(resource: ChannelProcess): Promise<void>;
 
   clearIndexPointsResource(userId: string, resourceId: string): Promise<void>;

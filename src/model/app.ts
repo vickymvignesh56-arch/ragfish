@@ -11,6 +11,7 @@ import {
 import { User } from "./user.js";
 import { Chat } from "./chat.js";
 import { UserAppChannel } from "./user-app-channel.js";
+import { LLMProvider } from "./LLMProvider.js";
 
 @Entity("apps")
 export class App {
@@ -91,4 +92,11 @@ export class App {
     type: "timestamp",
   })
   updatedAt!: Date;
+
+  @ManyToOne(() => LLMProvider, (llmProvider) => llmProvider.apps, {
+    nullable: true,
+    onDelete: "SET NULL",
+  })
+  @JoinColumn({ name: "llmProviderId" })
+  llmProviders!: LLMProvider;
 }

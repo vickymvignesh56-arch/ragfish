@@ -1,5 +1,9 @@
 import type { App } from "../model/app.js";
-import { AppRepository, appRepository } from "../repository/AppRepository.js";
+import {
+  AppRepository,
+  appRepository,
+  type UpdateApp,
+} from "../repository/AppRepository.js";
 import type { CreateAppRequest } from "../dto/apps/CreateAppRequest.js";
 
 export function createSlugName(name: string): string {
@@ -45,6 +49,36 @@ export class AppService {
       status: appParam.status ?? true,
       llmProvider: appParam.llmProvider ?? false,
     });
+  }
+
+  async getApps(userId: string): Promise<App[]> {
+    return this.appRepository.findAppAndUserId(userId);
+  }
+
+  async getAppDetails(userId: string, appId: string): Promise<App | null> {
+    return this.appRepository.findOne(userId, appId);
+  }
+
+  async deleteApp(userId: string, appId: string): Promise<boolean> {
+    return this.appRepository.deleteApp(userId, appId);
+  }
+
+  async updateApp(
+    userId: string,
+    appId: string,
+    appParam: UpdateApp,
+  ): Promise<App | null> {
+    const app = await this.appRepository.findOne(userId, appId);
+    if (!app) {
+      return null;
+    }
+    if (appParam.name && appParam.name !== app.name) {
+      appParam.slug = await uniqueSlugName(appParam.name, userId);
+    }
+    if (appParam.slug && appParam.slug !== app.slug) {
+      appParam.slug = await uniqueSlugName(appParam.slug, userId);
+    }
+    return this.appRepository.update(userId, appId, appParam);
   }
 }
 export const appService = new AppService(appRepository);
