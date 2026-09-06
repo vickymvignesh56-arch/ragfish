@@ -464,6 +464,166 @@ export const Components = {
       },
     },
 
+    UploadResourceResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "File uploaded successfully",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            fileName: {
+              type: "string",
+              example: "550e8400-e29b-41d4-a716-446655440000-resume.pdf",
+            },
+
+            filePath: {
+              type: "string",
+              example: "uploads/channel-id/resume.pdf",
+            },
+
+            size: {
+              type: "integer",
+              example: 524288,
+              description: "File size in bytes",
+            },
+
+            fileType: {
+              type: "string",
+              enum: ["pdf", "docx"],
+              example: "pdf",
+            },
+
+            status: {
+              type: "string",
+              example: "pending",
+            },
+
+            additionalInfo: {
+              type: "object",
+              properties: {
+                originalName: {
+                  type: "string",
+                  example: "resume.pdf",
+                },
+
+                mimeType: {
+                  type: "string",
+                  example: "application/pdf",
+                },
+              },
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
+    FindResourceResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "successfully got resource file list",
+        },
+
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string",
+                format: "uuid",
+              },
+
+              channelId: {
+                type: "string",
+                format: "uuid",
+              },
+
+              fileName: {
+                type: "string",
+                example: "sample.pdf",
+              },
+
+              filePath: {
+                type: "string",
+                example: "uploads/uuid/sample.pdf",
+              },
+
+              fileType: {
+                type: "string",
+                example: "pdf",
+              },
+
+              fileSize: {
+                type: "integer",
+                example: 524288,
+              },
+
+              status: {
+                type: "string",
+                example: "COMPLETED",
+              },
+
+              createdAt: {
+                type: "string",
+                format: "date-time",
+              },
+
+              updatedAt: {
+                type: "string",
+                format: "date-time",
+              },
+            },
+          },
+        },
+      },
+    },
+
+    DeleteResourceResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "successfully delete resource file",
+        },
+      },
+    },
+
     CreateChannelRequest: {
       type: "object",
       required: ["name", "description", "channelType"],

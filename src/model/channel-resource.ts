@@ -11,12 +11,12 @@ import {
 import { Channel } from "./channel.js";
 import { UserAppChannelResource } from "./user-app-channel-resource.js";
 
-export type ChannelResourceType = "pdf" | "docx" | "xlxs";
+export type ChannelResourceType = "pdf" | "docx";
 
 export type ResourcesAdditionalInfo = {
   [key: string]: any;
 };
-export type UploadStatus = "completed" | "pending" | "failed" | "processing";
+export type UploadStatus = "ready" | "pending" | "failed" | "processing";
 
 @Entity("channel_resources")
 export class ChannelResource {

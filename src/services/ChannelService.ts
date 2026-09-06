@@ -31,6 +31,13 @@ export class ChannelService {
     return this.channelRepository.findChannelIdByUserId(userId, id);
   }
 
+  findBychannelIdAndUserId(
+    userId: string,
+    channelId: string,
+  ): Promise<Channel | null> {
+    return this.channelRepository.findChannelIdByUserId(userId, channelId);
+  }
+
   async delete(userId: string, id: string): Promise<boolean> {
     return this.channelRepository.delete(id, userId);
   }

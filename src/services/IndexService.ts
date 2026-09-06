@@ -47,12 +47,14 @@ export class IndexService {
     await qdrantClient.delete(collectionName, {
       wait: true,
       filter: {
-        must: {
-          key: "resourceId",
-          match: {
-            value: resourceId,
+        must: [
+          {
+            key: "resourceId",
+            match: {
+              value: resourceId,
+            },
           },
-        },
+        ],
       },
     });
   }

@@ -4,6 +4,7 @@ import { AppDataSource } from "./config/database.js";
 import app from "./config/express.js";
 import { PORT } from "./env.js";
 import { showServerInfo } from "./info/server-info.js";
+import "./worker/resources-process.worker.js";
 
 await AppDataSource.initialize();
 app.listen(PORT, () => {

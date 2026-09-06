@@ -2,11 +2,13 @@ import { Worker } from "bullmq";
 import { RESOURCES_PROCESS_QUEUE_NAME } from "../queue/resources-process.queue.js";
 import type { ResourceProcessJob } from "../queue/resources-process.queue.js";
 import { redisConnection } from "../config/Redies.js";
+import { processResourceService } from "../services/ProcessResourceService.js";
 
 export const resouresProcessingWorker = new Worker<ResourceProcessJob>(
   RESOURCES_PROCESS_QUEUE_NAME,
-  async () => {
-    console.log("resouresProcessingWorker");
+  async (job) => {
+    const { channelId, userId, resourceId } = job.data;
+    await processResourceService.processResource(channelId, userId, resourceId);
   },
   {
     connection: redisConnection,

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   JsonController,
+  Param,
   Post,
   Put,
   Req,
@@ -52,7 +53,7 @@ export class ChannelController {
     @Res() res: any,
     @Req() req: any,
   ): Promise<any> {
-    const userId = req.user.id;
+    const userId = req.userId;
     const channel = await channelService.create(userId, channelData);
     return res.status(201).send({
       status: 1,
@@ -85,7 +86,7 @@ export class ChannelController {
    */
   @Get()
   async getChannels(@Req() req: any, @Res() res: any): Promise<any> {
-    const userId = req.user.id;
+    const userId = req.userId;
     const channels = await channelService.find(userId);
     if (!channels || channels.length === 0) {
       return res.status(404).send({
@@ -132,9 +133,12 @@ export class ChannelController {
    *         $ref: "#/components/responses/InternalServerError"
    */
   @Get("/:id")
-  async getChannelById(@Req() req: any, @Res() res: any): Promise<any> {
-    const userId = req.user.id;
-    const channelId = req.params.id;
+  async getChannelById(
+    @Param("channelId") channelId: string,
+    @Req() req: any,
+    @Res() res: any,
+  ): Promise<any> {
+    const userId = req.userId;
     const channel = await channelService.findOne(userId, channelId);
     if (!channel) {
       return res.status(404).send({
@@ -150,7 +154,7 @@ export class ChannelController {
   }
   /**
    * @openapi
-   * /api/channels/{id}:
+   * /api/channels/{channelId}:
    *   delete:
    *     tags:
    *       - Channels
@@ -180,10 +184,13 @@ export class ChannelController {
    *       500:
    *         $ref: "#/components/responses/InternalServerError"
    */
-  @Delete("/:id")
-  async deleteChannel(@Req() req: any, @Res() res: any): Promise<any> {
-    const userId = req.user.id;
-    const channelId = req.params.id;
+  @Delete("/:channelId")
+  async deleteChannel(
+    @Param("channelId") channelId: string,
+    @Req() req: any,
+    @Res() res: any,
+  ): Promise<any> {
+    const userId = req.userId;
     const channel = await channelService.findOne(userId, channelId);
     if (!channel) {
       return res.status(404).send({
