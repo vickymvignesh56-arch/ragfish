@@ -6,7 +6,8 @@ import { PORT } from "./env.js";
 import { showServerInfo } from "./info/server-info.js";
 import { resouresProcessingWorker } from "./worker/resources-process.worker.js";
 import { resouresProcessingQueue } from "./queue/resources-process.queue.js";
-const shutdown = async (signal: string) => {
+
+const shutdown = async () => {
   await resouresProcessingWorker.close();
   await resouresProcessingQueue.close();
 };
