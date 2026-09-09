@@ -20,6 +20,14 @@ export type UpdateApp = {
   llmProvider?: boolean;
 };
 
+export type CreateAppChannel = {
+  channelId: string;
+};
+
+export type CreateAppChannelResource = {
+  channelResourceId: string;
+};
+
 export class AppRepository {
   private repository;
   constructor() {

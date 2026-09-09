@@ -31,7 +31,14 @@ export class FileHandler implements ChannelHandler {
       if (!text.trim()) {
         throw new Error("No text found in the uploaded file");
       }
-      await resource.ingestPoint(text, fileName, filePath);
+      await indexService.ingestPoint(
+        userId,
+        channelId,
+        resourceId,
+        fileName,
+        filePath,
+        text,
+      );
     } catch (error) {
       console.error("Error processing resource:", error);
     }

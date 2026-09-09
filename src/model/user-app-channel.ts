@@ -7,10 +7,8 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  Index,
 } from "typeorm";
 
-import { User } from "./user.js";
 import { App } from "./app.js";
 import { Channel } from "./channel.js";
 import { UserAppChannelResource } from "./user-app-channel-resource.js";
@@ -23,25 +21,12 @@ export class UserAppChannel {
   @Column({
     type: "uuid",
   })
-  userId!: string;
-
-  @Column({
-    type: "uuid",
-  })
   appId!: string;
 
   @Column({
     type: "uuid",
   })
   channelId!: string;
-
-  @ManyToOne(() => User, {
-    onDelete: "CASCADE",
-  })
-  @JoinColumn({
-    name: "userId",
-  })
-  user!: User;
 
   @ManyToOne(() => App, (app) => app.userAppChannels, {
     onDelete: "CASCADE",

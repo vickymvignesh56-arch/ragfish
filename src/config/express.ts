@@ -9,11 +9,22 @@ import { LLMProviderController } from "../controllers/LLMProviderController.js";
 import { ErrorHandlerMiddleware } from "../middleware/errorHandler.middleware.js";
 import { AppController } from "../controllers/AppController.js";
 import { UserController } from "../controllers/UserController.js";
+import { ChannelController } from "../controllers/ChannelController.js";
+import { ChannelResourceController } from "../controllers/channelResourceController.js";
+import { ChatController } from "../controllers/ChatController.js";
 
 const app = createExpressServer({
   cors: true,
   routePrefix: "/api",
-  controllers: [AuthController, AppController, UserController, LLMProviderController],
+  controllers: [
+    AuthController,
+    AppController,
+    UserController,
+    LLMProviderController,
+    ChannelController,
+    ChannelResourceController,
+    ChatController,
+  ],
   middlewares: [loggerMiddleware, ErrorHandlerMiddleware],
   defaultErrorHandler: false,
   authorizationChecker: authorizationChecker,

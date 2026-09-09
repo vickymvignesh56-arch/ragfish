@@ -541,6 +541,351 @@ export const Components = {
       },
     },
 
+    CreateAppChannelResourceRequest: {
+      type: "object",
+      required: ["channelResourceId"],
+      properties: {
+        channelResourceId: {
+          type: "string",
+          format: "uuid",
+          example: "7b8e4a2c-5d6f-4a1b-9c3d-2e8f6a7b1c4d",
+        },
+      },
+    },
+
+    GetAppChannelResourceResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "Resource retrieved successfully",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            userAppChannelId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            channelResourceId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            channelResource: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                  format: "uuid",
+                },
+
+                channelId: {
+                  type: "string",
+                  format: "uuid",
+                },
+
+                fileName: {
+                  type: "string",
+                  example: "sample.pdf",
+                },
+
+                filePath: {
+                  type: "string",
+                  example: "uploads/sample.pdf",
+                },
+
+                fileType: {
+                  type: "string",
+                  example: "pdf",
+                },
+
+                fileSize: {
+                  type: "integer",
+                  example: 524288,
+                },
+
+                status: {
+                  type: "string",
+                  example: "COMPLETED",
+                },
+
+                createdAt: {
+                  type: "string",
+                  format: "date-time",
+                },
+
+                updatedAt: {
+                  type: "string",
+                  format: "date-time",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+
+    CreateAppChannelResourceResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "Resource successfully added to app channel",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            userAppChannelId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            channelResourceId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+
+    GetAppChannelResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "App channel fetched successfully",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            appId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            channelId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            channel: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                  format: "uuid",
+                },
+
+                name: {
+                  type: "string",
+                  example: "My Documents",
+                },
+
+                description: {
+                  type: "string",
+                  nullable: true,
+                  example: "PDF documents",
+                },
+
+                channelType: {
+                  type: "string",
+                  enum: ["files", "database", "xlxs"],
+                  example: "files",
+                },
+
+                status: {
+                  type: "boolean",
+                  example: true,
+                },
+
+                userId: {
+                  type: "string",
+                  format: "uuid",
+                },
+
+                createdAt: {
+                  type: "string",
+                  format: "date-time",
+                },
+
+                updatedAt: {
+                  type: "string",
+                  format: "date-time",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    CreateAppChannelRequest: {
+      type: "object",
+      required: ["channelId"],
+      properties: {
+        channelId: {
+          type: "string",
+          format: "uuid",
+          example: "7b8e4a2c-5d6f-4a1b-9c3d-2e8f6a7b1c4d",
+        },
+      },
+    },
+    CreateAppChannelResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "Channel successfully added to app",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            appId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            channelId: {
+              type: "string",
+              format: "uuid",
+            },
+
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+
+            channel: {
+              type: "object",
+              properties: {
+                id: {
+                  type: "string",
+                  format: "uuid",
+                },
+
+                name: {
+                  type: "string",
+                  example: "My Documents",
+                },
+
+                description: {
+                  type: "string",
+                  nullable: true,
+                  example: "PDF documents",
+                },
+
+                channelType: {
+                  type: "string",
+                  enum: ["files", "database", "xlxs"],
+                  example: "files",
+                },
+
+                status: {
+                  type: "boolean",
+                  example: true,
+                },
+
+                userId: {
+                  type: "string",
+                  format: "uuid",
+                },
+
+                createdAt: {
+                  type: "string",
+                  format: "date-time",
+                },
+
+                updatedAt: {
+                  type: "string",
+                  format: "date-time",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     FindResourceResponse: {
       type: "object",
       properties: {
