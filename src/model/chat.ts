@@ -6,11 +6,13 @@ import {
   JoinColumn,
   CreateDateColumn,
   Column,
+  UpdateDateColumn,
 } from "typeorm";
 
 import { User } from "./user.js";
 import { App } from "./app.js";
 import { ChatMessage } from "./chat.message.js";
+import { ChannelResource } from "./channel-resource.js";
 
 @Entity("chats")
 export class Chat {
@@ -19,6 +21,7 @@ export class Chat {
 
   @Column("uuid")
   userId!: string;
+
   @Column("uuid")
   appId!: string;
 
@@ -33,6 +36,19 @@ export class Chat {
     nullable: true,
   })
   title!: string;
+
+  @Column({
+    type: "uuid",
+  })
+  resourceId!: string;
+
+  @ManyToOne(() => ChannelResource, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: "resourceId",
+  })
+  resource!: ChannelResource;
 
   @Column({
     type: "boolean",
@@ -61,4 +77,9 @@ export class Chat {
     type: "timestamp",
   })
   createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+  })
+  updatedAt!: Date;
 }

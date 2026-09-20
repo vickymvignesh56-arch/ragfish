@@ -5,6 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  UpdateDateColumn,
 } from "typeorm";
 
 import { Chat } from "./chat.js";
@@ -13,6 +14,11 @@ import { Chat } from "./chat.js";
 export class ChatMessage {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
+
+  @Column({
+    type: "text",
+  })
+  chatId!: string;
 
   @ManyToOne(() => Chat, (chat) => chat.messages, {
     onDelete: "CASCADE",
@@ -23,7 +29,12 @@ export class ChatMessage {
   @Column({
     type: "text",
   })
-  message!: string;
+  content!: string;
+
+  @Column({
+    type: "varchar",
+  })
+  role!: string;
 
   @Column({
     type: "text",
@@ -34,4 +45,9 @@ export class ChatMessage {
     type: "timestamp",
   })
   createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+  })
+  updatedAt!: Date;
 }

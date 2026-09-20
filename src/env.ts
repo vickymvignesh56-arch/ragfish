@@ -62,12 +62,14 @@ export type GeminiConfig = {
   apiKey: string;
   embeddingModel: string;
   generationModel: string;
+  chatModel: string;
 };
 
 export const geminiConfig: GeminiConfig = {
   apiKey: getEnv("GEMINI_API_KEY"),
   embeddingModel: getEnv("GEMINI_EMBEDDING_MODEL"),
   generationModel: getEnv("GEMINI_GENERATION_MODEL"),
+  chatModel: getEnv("GEMINI_CHAT_MODEL"),
 };
 
 type QdrantDistance = "Cosine" | "Euclid" | "Dot" | "Manhattan";
