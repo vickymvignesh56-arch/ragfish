@@ -38,6 +38,16 @@ export class AppChannelResourceRepository {
     });
   }
 
+  async findByUserAppChannelId(
+    userAppChannelId: string,
+  ): Promise<UserAppChannelResource[]> {
+    return await this.repository.find({
+      where: {
+        userAppChannelId,
+      },
+    });
+  }
+
   async create(
     userAppChannelId: string,
     channelResourceId: string,

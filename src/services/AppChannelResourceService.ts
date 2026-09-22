@@ -100,6 +100,28 @@ export class AppChannelResourceService {
       resourceId,
     );
   }
+  async getResourcesForApp(userId: string, appId: string): Promise<string[]> {
+    const app = await this.appService.getAppDetails(userId, appId);
+    if (!app) {
+      return [];
+    }
+    const appChannels = await this.appChannelService.findByAppId(appId);
+    if (!appChannels.length) {
+      return [];
+    }
+    const resourceIds: string[] = [];
+
+    for (const appChannel of appChannels) {
+      const resources =
+        await this.appChannelResourceRepository.findByUserAppChannelId(
+          appChannel.id,
+        );
+      for (const resource of resources) {
+        resourceIds.push(resource.channelResourceId);
+      }
+    }
+    return [...new Set(resourceIds)];
+  }
 }
 
 export const appChannelResourceService = new AppChannelResourceService(

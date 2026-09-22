@@ -10,6 +10,7 @@ export type chatRequest = {
   userId: string;
   appId: string;
   title: string;
+  resourceId: string[];
 };
 
 export class ChatRepository {
@@ -63,6 +64,7 @@ export class ChatRepository {
       },
     });
   }
+
   async findOne(
     userId: string,
     appId: string,

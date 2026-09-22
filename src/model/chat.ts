@@ -38,9 +38,9 @@ export class Chat {
   title!: string;
 
   @Column({
-    type: "uuid",
+    type: "jsonb",
   })
-  resourceId!: string;
+  resourceId!: string[];
 
   @ManyToOne(() => ChannelResource, {
     onDelete: "CASCADE",

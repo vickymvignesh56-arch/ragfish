@@ -36,11 +36,6 @@ export class ChatMessage {
   })
   role!: string;
 
-  @Column({
-    type: "text",
-  })
-  answer!: string;
-
   @CreateDateColumn({
     type: "timestamp",
   })

@@ -2,8 +2,8 @@ import { AppDataSource } from "../config/database.js";
 import { ChatMessage } from "../model/chat.message.js";
 export type chatMessageRequest = {
   chatId: string;
-  message: string;
-  answer: string;
+  role: string;
+  content: string;
 };
 export class ChatMessageRepository {
   private repository;

@@ -30,6 +30,7 @@ export class IndexService {
               id: `${resourceId}-${chunk.index}`,
               vector: embedding,
               payload: {
+                userId,
                 chunkIndex: chunk.index,
                 text: chunk.text,
                 channelId,
@@ -62,6 +63,31 @@ export class IndexService {
         ],
       },
     });
+  }
+
+  async searchResource(
+    userId: string,
+    resourceId: string[],
+    queryEmbedding: number[],
+    limit: number = 5,
+  ) {
+    const collectionName = this.qdrantServices.getUserCollectionName(userId);
+    const result = await qdrantClient.search(collectionName, {
+      vector: queryEmbedding,
+      limit,
+      with_payload: true,
+      filter: {
+        must: [
+          {
+            key: "resourceId",
+            match: {
+              value: resourceId,
+            },
+          },
+        ],
+      },
+    });
+    return result;
   }
 }
 
