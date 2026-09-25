@@ -7,7 +7,8 @@ import {
 import { BadRequestError, NotFoundError } from "routing-controllers";
 import { decrypt, encrypt } from "../utils/crypto.js";
 import { GeminiService, geminiService } from "./GeminiService.js";
-
+import { OpenAIService, openAIService } from "./OpenAiService.js";
+import { AnthropicService, anthropicService } from "./AnthropicService.js";
 export interface LLMProviderResponse {
   id: string;
   provider: string;
@@ -23,6 +24,8 @@ export class LLMProviderService {
   constructor(
     private readonly llmProvider: LLMProviderRepository,
     private readonly geminiService: GeminiService,
+    private readonly openAIService: OpenAIService,
+    private readonly anthropicService: AnthropicService,
   ) {}
 
   async getActiveProvider(userId: string): Promise<LLMProvider> {
@@ -155,6 +158,12 @@ export class LLMProviderService {
       case LLMProviderType.GEMINI:
         await this.geminiService.validateConnection(apiKey, chatModel);
         return;
+      case LLMProviderType.OPENAI:
+        await this.openAIService.validateConnection(apiKey, chatModel);
+        return;
+      case LLMProviderType.GEMINI:
+        await this.anthropicService.validateConnection(apiKey, chatModel);
+        return;
       default:
         throw new Error(`Unsupported LLM provider: ${provider}`);
     }
@@ -163,4 +172,6 @@ export class LLMProviderService {
 export const llmProviderService = new LLMProviderService(
   llmProviderRepository,
   geminiService,
+  openAIService,
+  anthropicService,
 );

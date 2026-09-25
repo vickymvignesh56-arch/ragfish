@@ -13,6 +13,11 @@ export type chatRequest = {
   resourceId: string[];
 };
 
+export type updateChatRequest = {
+  title?: string;
+  isPinned?: boolean;
+};
+
 export class ChatRepository {
   private repository;
   constructor() {
@@ -24,12 +29,18 @@ export class ChatRepository {
         id,
         userId,
       },
+      order: {
+        createdAt: "DESC",
+      },
     });
   }
   async findById(id: string): Promise<Chat | null> {
     return await this.repository.findOne({
       where: {
         id,
+      },
+      order: {
+        createdAt: "DESC",
       },
     });
   }
@@ -62,6 +73,9 @@ export class ChatRepository {
         userId,
         appId,
       },
+      order: {
+        createdAt: "DESC",
+      },
     });
   }
 
@@ -70,22 +84,53 @@ export class ChatRepository {
     appId: string,
     chatId: string,
   ): Promise<Chat | null> {
-    return this.repository.findOne({ where: { userId, appId, id: chatId } });
+    return this.repository.findOne({
+      where: { userId, appId, id: chatId },
+      order: {
+        createdAt: "DESC",
+      },
+    });
   }
+
   async find(userId: string, appId: string, chatId: string): Promise<Chat[]> {
-    return this.repository.find({ where: { userId, appId, id: chatId } });
+    return this.repository.find({
+      where: { userId, appId, id: chatId },
+      order: {
+        createdAt: "DESC",
+      },
+    });
+  }
+
+  async findByUserIdAndAppId(userId: string, appId: string): Promise<Chat[]> {
+    return this.repository.find({
+      where: { userId, appId },
+      order: {
+        createdAt: "DESC",
+      },
+    });
   }
 
   async create(data: chatRequest): Promise<Chat> {
     return this.repository.save(data);
   }
-  async update(data: any): Promise<Chat | null> {
-    const chat = await this.findOne(data.userId, data.appId, data.chatId);
+  async update(data: updateChatRequest, chatId: string): Promise<Chat | null> {
+    const chat = await this.repository.findOne({ where: { id: chatId } });
     if (!chat) {
       return null;
     }
-    Object.assign(chat, data);
+    if (data.title !== undefined) {
+      chat.title = data.title;
+    }
+    if (data.isPinned !== undefined) {
+      chat.isPinned = data.isPinned;
+      chat.pinnedAt = data.isPinned ? new Date() : null;
+    }
     return this.repository.save(chat);
+  }
+
+  async delete(chatId: string): Promise<boolean> {
+    const result = await this.repository.delete({ id: chatId });
+    return (result.affected ?? 0) > 0;
   }
 }
 export const chatRepository = new ChatRepository();

@@ -7,6 +7,7 @@ import {
   chatRepository,
   ChatRepository,
   type messageRequest,
+  type updateChatRequest,
 } from "../repository/ChatRepository.js";
 import {
   AppChannelResourceService,
@@ -16,6 +17,8 @@ import { IndexService, indexService } from "./IndexService.js";
 import { EmbeddingService, embeddingService } from "./EmbeddingService.js";
 import { LLMService, llmService } from "./LLMService.js";
 import { AppService, appService } from "./AppService.js";
+import type { Chat } from "../model/chat.js";
+import type { ChatMessage } from "../model/chat.message.js";
 
 export class ChatService {
   constructor(
@@ -51,7 +54,7 @@ export class ChatService {
       chatId = chat.id;
       resourceIds = chat?.resourceId;
     } else {
-      resourceIds = await appChannelResourceService.getResourcesForApp(
+      resourceIds = await this.appChannelResourceService.getResourcesForApp(
         userId,
         appId,
       );
@@ -124,6 +127,45 @@ export class ChatService {
           `;
       })
       .join("\n\n");
+  }
+
+  async getMessage(userId: string, appId: string): Promise<Chat[]> {
+    return await this.chatRepository.findByUserIdAndAppId(userId, appId);
+  }
+  async getChatMessage(
+    userId: string,
+    appId: string,
+    chatId: string,
+  ): Promise<ChatMessage[]> {
+    const chat = await this.chatRepository.findOne(userId, appId, chatId);
+    if (!chat) return [];
+    return await this.chatMessageRepository.find(chatId);
+  }
+
+  async deleteMessage(
+    userId: string,
+    appId: string,
+    chatId: string,
+  ): Promise<boolean> {
+    const chat = await this.chatRepository.findOne(userId, appId, chatId);
+    if (!chat) {
+      return false;
+    }
+    await this.chatMessageRepository.delete(chatId);
+    return await this.chatRepository.delete(chatId);
+  }
+
+  async updateChat(
+    userId: string,
+    appId: string,
+    chatId: string,
+    body: updateChatRequest,
+  ): Promise<Chat | null> {
+    const chat = await this.chatRepository.findOne(userId, appId, chatId);
+    if (!chat) {
+      return null;
+    }
+    return await this.chatRepository.update(body, chatId);
   }
 }
 

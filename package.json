@@ -12,6 +12,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
     "@google/genai": "^2.13.0",
     "@qdrant/js-client-rest": "^1.18.0",
     "bcrypt": "^6.0.0",

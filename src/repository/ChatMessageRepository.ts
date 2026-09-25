@@ -12,10 +12,21 @@ export class ChatMessageRepository {
   }
 
   async findOne(chatId: string): Promise<ChatMessage | null> {
-    return this.repository.findOne({ where: { chatId } });
+    return this.repository.findOne({
+      where: { chatId },
+      order: {
+        createdAt: "DESC",
+      },
+    });
   }
+
   async find(chatId: string): Promise<ChatMessage[]> {
-    return this.repository.find({ where: { chatId } });
+    return this.repository.find({
+      where: { chatId },
+      order: {
+        createdAt: "ASC",
+      },
+    });
   }
 
   async create(data: chatMessageRequest): Promise<ChatMessage> {
@@ -29,6 +40,11 @@ export class ChatMessageRepository {
     }
     Object.assign(chat, data);
     return this.repository.save(chat);
+  }
+
+  async delete(chatId: string): Promise<boolean> {
+    const result = await this.repository.delete({ chatId });
+    return (result.affected ?? 0) > 0;
   }
 }
 export const chatMessageRepository = new ChatMessageRepository();

@@ -16,6 +16,7 @@ import { App } from "./app.js";
 export enum LLMProviderType {
   GEMINI = "GEMINI",
   OPENAI = "OPENAI",
+  ANTHROPIC = "ANTHROPIC",
 }
 
 @Entity("llm_providers")

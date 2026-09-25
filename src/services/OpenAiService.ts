@@ -1,12 +1,15 @@
+import OpenAI from "openai";
+
 import type {
   GenerateResponseInput,
   LLMClient,
   LLMResponse,
 } from "../interface/LLMClient.js";
+
 import { llmProviderService } from "./LLMProviderService.js";
-import { createGeminiClient } from "../config/gemini.js";
 import { buildPrompt } from "../utils/prompt-builder.js";
-export class GeminiService implements LLMClient {
+
+export class OpenAIService implements LLMClient {
   async generateResponse(input: GenerateResponseInput): Promise<LLMResponse> {
     const message = input.message.trim();
     if (!message) {
@@ -14,27 +17,31 @@ export class GeminiService implements LLMClient {
     }
     const { provider, decryptedApiKey } =
       await llmProviderService.getActiveProviderWithDecryptedKey(input.userId);
-    if (provider.provider !== "GEMINI") {
+    if (provider.provider !== "OPENAI") {
       throw new Error(
-        `Active LLM provider is ${provider.provider}, not GEMINI`,
+        `Active LLM provider is ${provider.provider}, not OPENAI`,
       );
     }
-    const contents = buildPrompt(input);
+    const prompt = buildPrompt(input);
     try {
-      const gemini = createGeminiClient(decryptedApiKey);
-      const response = await gemini.models.generateContent({
-        model: provider.chatModel,
-        contents,
+      const openai = new OpenAI({
+        apiKey: decryptedApiKey,
       });
-      const content = response.text?.trim();
+      const response = await openai.responses.create({
+        model: provider.chatModel,
+        input: prompt,
+      });
+      const content = response.output_text?.trim();
       if (!content) {
-        throw new Error("Gemini returned an empty response");
+        throw new Error("OpenAI returned an empty response");
       }
       return {
         content,
       };
-    } catch (err) {
-      throw new Error("Failed to generate response from Gemini");
+    } catch (error) {
+      console.error("OpenAI response generation failed:", error);
+
+      throw new Error("Failed to generate response from OpenAI");
     }
   }
 
@@ -47,20 +54,26 @@ export class GeminiService implements LLMClient {
       throw new Error("Chat model is required");
     }
     try {
-      const gemini = createGeminiClient(key);
-      const response = await gemini.models.generateContent({
+      const openai = new OpenAI({
+        apiKey: key,
+      });
+
+      const response = await openai.responses.create({
         model: chatModel,
-        contents:
+        input:
           "Reply with only the word OK. This is a provider validation request.",
       });
-      const content = response.text?.trim();
+
+      const content = response.output_text?.trim();
+
       if (!content) {
-        throw new Error("Gemini returned an empty response");
+        throw new Error("OpenAI returned an empty response");
       }
     } catch (error) {
-      console.error("Gemini validation failed:", error);
-      throw new Error("Invalid Gemini API key or chat model");
+      console.error("OpenAI validation failed:", error);
+      throw new Error("Invalid OpenAI API key or chat model");
     }
   }
 }
-export const geminiService = new GeminiService();
+
+export const openAIService = new OpenAIService();

@@ -1198,6 +1198,268 @@ export const Components = {
       },
     },
 
+    ChatMessageRequest: {
+      type: "object",
+      required: ["message"],
+      properties: {
+        chatId: {
+          type: "string",
+          format: "uuid",
+          nullable: true,
+          description:
+            "Existing chat ID. Omit this field to create a new chat.",
+          example: "550e8400-e29b-41d4-a716-446655440000",
+        },
+
+        message: {
+          type: "string",
+          description: "User message",
+          example: "What is this document about?",
+        },
+      },
+    },
+    ChatMessageResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "Message processed successfully",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            chatId: {
+              type: "string",
+              format: "uuid",
+              example: "550e8400-e29b-41d4-a716-446655440000",
+            },
+
+            message: {
+              type: "string",
+              example: "What is this document about?",
+            },
+
+            answer: {
+              type: "string",
+              example:
+                "This document explains the main features of the application.",
+            },
+          },
+        },
+      },
+    },
+    ChatHistoryResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "successfully get chat history",
+        },
+
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string",
+                format: "uuid",
+                example: "550e8400-e29b-41d4-a716-446655440000",
+              },
+
+              userId: {
+                type: "string",
+                format: "uuid",
+                example: "7b8e4a2c-5d6f-4a1b-9c3d-2e8f6a7b1c4d",
+              },
+
+              appId: {
+                type: "string",
+                format: "uuid",
+                example: "7b8e4a2c-5d6f-4a1b-9c3d-2e8f6a7b1c4d",
+              },
+
+              title: {
+                type: "string",
+                example: "what is ragfish",
+              },
+
+              resourceId: {
+                type: "array",
+                items: {
+                  type: "string",
+                  format: "uuid",
+                },
+                example: ["550e8400-e29b-41d4-a716-446655440000"],
+              },
+
+              isPinned: {
+                type: "boolean",
+                example: false,
+              },
+
+              pinnedAt: {
+                type: "string",
+                format: "date-time",
+                nullable: true,
+              },
+
+              createdAt: {
+                type: "string",
+                format: "date-time",
+              },
+
+              updatedAt: {
+                type: "string",
+                format: "date-time",
+              },
+            },
+          },
+        },
+      },
+    },
+    ChatMessagesResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "successfully get chat messages",
+        },
+
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string",
+                format: "uuid",
+                example: "550e8400-e29b-41d4-a716-446655440000",
+              },
+
+              chatId: {
+                type: "string",
+                format: "uuid",
+                example: "7b8e4a2c-5d6f-4a1b-9c3d-2e8f6a7b1c4d",
+              },
+
+              role: {
+                type: "string",
+                enum: ["user", "assistant"],
+                example: "user",
+              },
+
+              content: {
+                type: "string",
+                example: "What is this document about?",
+              },
+
+              createdAt: {
+                type: "string",
+                format: "date-time",
+              },
+
+              updatedAt: {
+                type: "string",
+                format: "date-time",
+              },
+            },
+          },
+        },
+      },
+    },
+    UpdateChatRequest: {
+      type: "object",
+      properties: {
+        title: {
+          type: "string",
+          description: "Updated chat title",
+          example: "Project Documentation",
+        },
+
+        isPinned: {
+          type: "boolean",
+          description: "Pin or unpin the chat",
+          example: true,
+        },
+      },
+    },
+    UpdateChatResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "successfully updated chat",
+        },
+
+        data: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+
+            title: {
+              type: "string",
+              example: "Project Documentation",
+            },
+
+            isPinned: {
+              type: "boolean",
+              example: true,
+            },
+
+            pinnedAt: {
+              type: "string",
+              format: "date-time",
+              nullable: true,
+            },
+
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+      },
+    },
+    DeleteChatResponse: {
+      type: "object",
+      properties: {
+        status: {
+          type: "integer",
+          example: 1,
+        },
+
+        message: {
+          type: "string",
+          example: "successfully deleted chat",
+        },
+      },
+    },
+
     DeleteChannelResponse: {
       type: "object",
       properties: {
